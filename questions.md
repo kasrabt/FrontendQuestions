@@ -204,3 +204,238 @@ console.log('5' - 3); // 2
 console.log(true + 1); // 2
 ```
 
+# Advanced JavaScript and Web Development Concepts
+
+## 1. What is PWA and Service Worker? How to Handle Caching?
+
+**PWA (Progressive Web App)** is a web application that provides a native-like experience, including offline support, push notifications, and better performance.
+
+**Service Worker** is a script that runs in the background, separate from the main browser thread, enabling caching, push notifications, and background sync.
+
+### Example Caching Strategy:
+```js
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open('my-cache').then((cache) => {
+            return cache.addAll(['/index.html', '/styles.css', '/script.js']);
+        })
+    );
+});
+```
+
+---
+## 2. Handling Icons in React for Better Performance
+Using `<symbol>` and `<use>` with SVG sprites is an optimal way to handle icons in React.
+
+### Example:
+```xml
+<svg style="display: none;">
+    <symbol id="icon-star" viewBox="0 0 24 24">
+        <path d="..." />
+    </symbol>
+</svg>
+```
+```jsx
+<svg>
+    <use href="#icon-star" />
+</svg>
+```
+
+---
+## 3. Difference Between `align-items` and `align-content`
+- **`align-items`**: Aligns items inside a flex container along the cross-axis.
+- **`align-content`**: Aligns multiple rows inside a flex container.
+
+### Example:
+```css
+display: flex;
+align-items: center; /* Aligns items in a single row */
+align-content: space-between; /* Distributes space between multiple rows */
+```
+
+---
+## 4. CSS `position` Values and Their Meaning
+
+| Value       | Description |
+|------------|-------------|
+| `static`   | Default position |
+| `relative` | Positioned relative to itself |
+| `absolute` | Positioned relative to the nearest positioned ancestor |
+| `fixed`    | Positioned relative to the viewport |
+| `sticky`   | Switches between `relative` and `fixed` |
+
+### Example:
+```css
+.fixed-box {
+    position: fixed;
+    top: 0;
+}
+```
+
+---
+## 5. Behavior of Identical Class Names in SASS Modules
+Each class name gets a unique hash in CSS Modules, preventing conflicts.
+
+### Example:
+```scss
+// styles.module.scss
+.button {
+    background: blue;
+}
+```
+```js
+import styles from './styles.module.scss';
+console.log(styles.button); // Example output: styles_button__1a2b3c
+```
+
+---
+## 6. Primitive vs Non-Primitive Data Types
+
+| Type       | Example |
+|------------|---------|
+| Primitive  | `string`, `number`, `boolean`, `null`, `undefined`, `symbol`, `bigint` |
+| Non-Primitive | `object`, `array`, `function` |
+
+### Example:
+```js
+let x = 5; // Primitive
+let obj = { name: "John" }; // Non-Primitive
+```
+
+---
+## 7. Immutable vs Mutable Values
+- **Immutable**: Cannot be changed (e.g., `string`, `number`)
+- **Mutable**: Can be changed (e.g., `object`, `array`)
+
+### Example:
+```js
+const arr = [1, 2, 3];
+arr.push(4); // Mutable change
+```
+
+---
+## 8. Memoization Implementation
+```js
+function memoize(fn) {
+    let cache = {};
+    return function (...args) {
+        let key = JSON.stringify(args);
+        if (!cache[key]) {
+            cache[key] = fn(...args);
+        }
+        return cache[key];
+    };
+}
+```
+
+---
+## 9. Closure Explanation
+A closure is a function that retains access to its outer function's variables.
+
+### Example:
+```js
+function outer(x) {
+    return function inner(y) {
+        return x + y;
+    };
+}
+const add5 = outer(5);
+console.log(add5(3)); // 8
+```
+
+---
+## 10. Implementing `map` in TypeScript
+```ts
+function customMap<T, U>(arr: T[], callback: (value: T) => U): U[] {
+    let result: U[] = [];
+    for (let item of arr) {
+        result.push(callback(item));
+    }
+    return result;
+}
+```
+
+---
+## 11. Limiting Records in Sentry
+```js
+Sentry.init({
+    maxBreadcrumbs: 50 // Limit to 50 logs
+});
+```
+
+---
+## 12-13. `useState` with `const` vs `let`
+React ensures state updates via the setter function (`setState`), so `const` works.
+
+### Example:
+```js
+const [count, setCount] = useState(0);
+setCount(count + 1); // Works even though count is const
+```
+
+---
+## 14. Merge vs Rebase in Git
+- **Merge**: Combines branches with a new commit.
+- **Rebase**: Moves commits from one branch to another, keeping history linear.
+
+---
+## 15. Server Components vs SSR
+Server Components allow rendering on the server without sending extra JavaScript to the client, improving performance.
+
+---
+## 16. Docker Explanation
+Docker helps create lightweight, portable containers.
+
+```Dockerfile
+FROM node:14
+WORKDIR /app
+COPY . .
+RUN npm install
+CMD ["node", "server.js"]
+```
+
+---
+## 17. LocalStorage vs SessionStorage vs Cookies
+| Storage   | Scope  | Expiry |
+|-----------|--------|--------|
+| LocalStorage | Permanent | Until manually cleared |
+| SessionStorage | Per session | Cleared on tab close |
+| Cookies | Server-client | Set expiration |
+
+---
+## 18. Virtual List for Performance Optimization
+```js
+import { FixedSizeList } from 'react-window';
+const Row = ({ index, style }) => <div style={style}>Row {index}</div>;
+<FixedSizeList height={500} width={300} itemSize={30} itemCount={1000}>{Row}</FixedSizeList>;
+```
+
+---
+## 19. Reverse Words in a String
+```js
+function reverseWords(str) {
+    return str.split(' ').map(word => word.split('').reverse().join('')).join(' ');
+}
+console.log(reverseWords("hello ali this is class"));
+```
+
+---
+## 20. Heap vs Stack Memory
+- **Stack**: Used for primitive values and function calls.
+- **Heap**: Used for objects and complex data.
+
+### Example:
+```js
+let x = 10; // Stack
+let obj = { name: "John" }; // Heap
+```
+
+---
+## 21. Factorial Calculation
+```js
+function factorial(n) {
+    return n <= 1 ? 1 : n * factorial(n - 1);
+}
+console.log(factorial(4)); // 24
+```
+
