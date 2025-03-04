@@ -439,3 +439,217 @@ function factorial(n) {
 console.log(factorial(4)); // 24
 ```
 
+
+
+# Advanced React Concepts
+
+## 1. Advanced State Management
+
+### Redux & Redux Toolkit
+Redux is a state management library that helps manage global state in a predictable manner. Redux Toolkit simplifies Redux by providing best practices.
+
+```js
+import { configureStore, createSlice } from '@reduxjs/toolkit';
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) => { state.value += 1; },
+    decrement: (state) => { state.value -= 1; }
+  }
+});
+
+export const { increment, decrement } = counterSlice.actions;
+export const store = configureStore({ reducer: { counter: counterSlice.reducer } });
+```
+
+### Context API
+A built-in React feature to manage state globally.
+
+```js
+const ThemeContext = createContext('light');
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+}
+```
+
+### Zustand
+A minimalistic state management library.
+
+```js
+import create from 'zustand';
+
+const useStore = create((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 }))
+}));
+```
+
+---
+
+## 2. React Performance Optimization
+
+### Memoization
+Optimizing renders with `React.memo`, `useMemo`, and `useCallback`.
+
+```js
+const MemoizedComponent = React.memo(({ value }) => <p>{value}</p>);
+```
+
+### Code Splitting
+Lazy load components.
+
+```js
+const LazyComponent = React.lazy(() => import('./LazyComponent'));
+```
+
+---
+
+## 3. Component Design Patterns
+
+### Higher-Order Components (HOCs)
+Encapsulating logic by wrapping components.
+
+```js
+function withLogging(WrappedComponent) {
+  return function (props) {
+    console.log('Component rendered');
+    return <WrappedComponent {...props} />;
+  };
+}
+```
+
+### Custom Hooks
+Reusable logic abstraction.
+
+```js
+function useCounter() {
+  const [count, setCount] = useState(0);
+  return { count, increment: () => setCount(count + 1) };
+}
+```
+
+---
+
+## 4. Server-Side Rendering (SSR)
+
+### Next.js Example
+
+```js
+export async function getServerSideProps() {
+  const res = await fetch('https://api.example.com/data');
+  const data = await res.json();
+  return { props: { data } };
+}
+```
+
+---
+
+## 5. TypeScript with React
+
+### Type Safety Example
+
+```tsx
+type ButtonProps = { label: string; };
+const Button: React.FC<ButtonProps> = ({ label }) => <button>{label}</button>;
+```
+
+---
+
+## 6. Testing
+
+### React Testing Library
+
+```js
+test('renders component', () => {
+  render(<Component />);
+  expect(screen.getByText(/hello/i)).toBeInTheDocument();
+});
+```
+
+### Cypress
+
+```js
+describe('My Test', () => {
+  it('should load the page', () => {
+    cy.visit('/');
+  });
+});
+```
+
+---
+
+## 7. React Ecosystem and Tooling
+
+### ESLint & Prettier
+
+```json
+{
+  "extends": ["eslint:recommended", "plugin:react/recommended"]
+}
+```
+
+---
+
+## 8. API Integration
+
+### GraphQL Example
+
+```js
+const { data } = useQuery(gql`{ users { name } }`);
+```
+
+### WebSockets
+
+```js
+const socket = new WebSocket('wss://example.com/socket');
+socket.onmessage = (event) => console.log(event.data);
+```
+
+---
+
+## 9. Authentication and Authorization
+
+### JWT Authentication
+
+```js
+const token = localStorage.getItem('token');
+fetch('/protected', { headers: { Authorization: `Bearer ${token}` } });
+```
+
+---
+
+## 10. Code Architecture
+
+### Monorepos (Nx, Lerna)
+
+```sh
+npx create-nx-workspace myworkspace
+```
+
+---
+
+## 11. Web Performance Optimization
+
+### Lazy Loading
+
+```js
+<img loading="lazy" src="image.jpg" alt="Lazy loaded" />
+```
+
+### PWA Example
+
+```json
+{
+  "name": "My PWA",
+  "short_name": "PWA",
+  "start_url": "/"
+}
+```
+
